@@ -1,22 +1,35 @@
 # Slangfy + OpenCode
 
-## Option A — Project-level instructions
+OpenCode uses `slangfy.md` as instructions — all bundled dicts (Web Dev, Data Science, DevOps) are included automatically.
 
-Create a `.opencode/instructions.md` file in your project root and paste the contents of `slangfy.md` into it. OpenCode loads this automatically on session start.
+## Option A — Project-level (this project only)
 
 ```bash
 mkdir -p .opencode
 cp path/to/slangfy.md .opencode/instructions.md
 ```
 
-## Option B — Global instructions
+OpenCode loads `.opencode/instructions.md` automatically on session start.
 
-Copy to your global OpenCode config directory:
+## Option B — Global (all projects)
 
 ```bash
 mkdir -p ~/.config/opencode
 cp path/to/slangfy.md ~/.config/opencode/instructions.md
 ```
+
+## Custom dicts
+
+To add team or project-specific shorthands, create a `dicts/my-team.md` in your project root following this format:
+
+```markdown
+| shorthand | full term  |
+|-----------|------------|
+| `gw`      | API gateway |
+| `pub`     | publisher  |
+```
+
+OpenCode reads project files as context — place the dict in your project and it will be picked up automatically.
 
 ## Verify it works
 

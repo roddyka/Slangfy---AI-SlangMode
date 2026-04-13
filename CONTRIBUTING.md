@@ -20,16 +20,24 @@ Community contributions are welcome. This is a documentation-only project — no
 ## File structure
 
 ```
-slangfy.md                        — core protocol (universal, any LLM)
+slangfy.md                           — core protocol (universal, any LLM) — bundled dicts included
+dicts/                               — contribution source for community dictionaries
+│   ├── web-dev.md                   — Frontend + Backend
+│   ├── data-science.md              — Data Science / ML
+│   ├── devops.md                    — DevOps / Cloud
+│   └── example-custom.md (*)        — template for user custom dicts
 integrations/
-├── claude-code/                  — Claude Code CLI skill
+├── claude-code/                     — Claude Code CLI skill
 │   ├── install.md
+│   ├── dicts/example-custom.md      — template for user custom dicts (Claude Code)
 │   └── .claude/skills/
-├── gemini-cli/                   — Gemini CLI
-│   └── GEMINI.md
-├── aider/                        — Aider
+│       ├── slangfy-on/SKILL.md      — bundled dicts included
+│       └── slangfy-off/SKILL.md
+├── gemini-cli/
+│   └── GEMINI.md                    — bundled dicts included
+├── aider/
 │   └── install.md
-└── opencode/                     — OpenCode
+└── opencode/
     └── install.md
 ```
 
@@ -40,8 +48,16 @@ integrations/
 3. If the CLI uses a config/instructions file, include it ready to copy
 4. Update `README.md` install section with a short entry
 
+## Adding a new community dict
+
+1. Create `dicts/<domain>.md` with a markdown table (see existing files for format)
+2. Bundle it into `slangfy.md` (section 5), `integrations/claude-code/.claude/skills/slangfy-on/SKILL.md`, and `integrations/gemini-cli/GEMINI.md`
+3. Update the Community dictionaries table in `README.md`
+4. Open a PR — all four files must be in sync
+
 ## Rules
 
-- Keep `slangfy.md` and all integration skill files in sync — if you change the protocol, update all of them
+- Keep `slangfy.md` and all integration skill files in sync — if you change the protocol or add a dict, update all plugin files
 - No code, no dependencies — this project is pure spec/docs
 - PRs that add shorthands must justify why the term is common enough to warrant a permanent entry
+- Never bundle a dict that isn't also in `dicts/` — the folder is the source of truth

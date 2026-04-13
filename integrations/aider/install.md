@@ -1,30 +1,33 @@
 # Slangfy + Aider
 
+Aider uses `slangfy.md` as the system prompt — all bundled dicts (Web Dev, Data Science, DevOps) are included automatically.
+
 ## Option A — Per session (flag)
 
 ```bash
-aider --system-prompt ../../slangfy.md
+aider --system-prompt path/to/slangfy.md
 ```
 
 ## Option B — Permanent (config file)
 
-Add to your `.aider.conf.yml` in the project root or `~/.aider.conf.yml` for global use:
+Add to `.aider.conf.yml` in your project root or `~/.aider.conf.yml` for global use:
 
 ```yaml
 system-prompt: path/to/slangfy.md
 ```
 
-## Option C — Inline (no file)
+## Custom dicts
 
-Add to `.aider.conf.yml`:
+To add team or project-specific shorthands, create a `dicts/my-team.md` in your project root following this format:
 
-```yaml
-system-prompt: |
-  Apply this protocol to all outputs.
-  status: [ok|warn|err] | task @ context | action: [...] | out: [...] | ! [warning]
-  Compress aggressively. No politeness. Use diff for code changes.
-  Shorten any tech term >6 chars to its common abbreviation. Define-on-first-use for unknown terms.
+```markdown
+| shorthand | full term  |
+|-----------|------------|
+| `gw`      | API gateway |
+| `pub`     | publisher  |
 ```
+
+Aider reads project files as context — place the dict in your project and it will be picked up automatically.
 
 ## Verify it works
 

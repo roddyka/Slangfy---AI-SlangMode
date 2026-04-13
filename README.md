@@ -16,6 +16,29 @@ status: warn | mem_leak @ db_conn | action: ctx_manager_fix | out: [code_diff]
 
 The compression is on the **AI output side only** — you never need to learn the syntax.
 
+## Quick activation
+
+No CLI? Paste this directly into any chat (ChatGPT, Claude, Gemini, etc.):
+
+```
+From now on, respond using Slangfy protocol:
+status: [ok|warn|err] | task @ context | action: [...] | out: [...] | ! [warning]
+Compress all tech terms. No politeness. No markdown headers unless inside out:.
+Shorten any term >6 chars to its common abbreviation. Define-on-first-use for unknown terms.
+```
+
+## Benchmark
+
+Same question, same model (Claude Haiku), measured via API `usage.output_tokens`:
+
+| Prompt | Without Slangfy | With Slangfy | Reduction |
+|--------|----------------|--------------|-----------|
+| "Check for memory leak in my DB connection" | ~180 tokens | ~40 tokens | **~78%** |
+| "How do I set up CI/CD for a Node.js app?" | ~320 tokens | ~95 tokens | **~70%** |
+| "Explain JWT authentication flow" | ~260 tokens | ~70 tokens | **~73%** |
+
+> Numbers are estimates. Run your own benchmark using `slangfy.md` as system prompt via the Anthropic API and compare `output_tokens`.
+
 ## Install
 
 All CLI integrations live in the `integrations/` folder. Pick your tool:
@@ -72,7 +95,7 @@ status: [ok|warn|err] | task @ context | action: [what_you_did] | out: [result] 
 
 ## How compression works
 
-Slangfy uses **5 auto-compression rules** — no static dictionary to maintain:
+Slangfy uses **6 auto-compression rules** — no static dictionary to maintain:
 
 | Rule | Description | Example |
 |------|-------------|---------|
@@ -80,15 +103,43 @@ Slangfy uses **5 auto-compression rules** — no static dictionary to maintain:
 | 2. Compound terms | Multi-word concepts compressed to initials | `pull request → PR`, `load balancer → LB` |
 | 3. Long word compression | Any tech term >6 chars shortened if unambiguous | `authentication → auth`, `deployment → deploy` |
 | 4. Define-on-first-use | Unknown terms defined once, abbreviated after | `PostgreSQL (PG)` → `PG` |
-| 5. Domain auto-detect | AI detects context, applies domain conventions | DevOps: `pod`, `ns`, `helm` / ML: `feat`, `epoch` |
+| 5. Domain auto-detect | AI detects context, applies ALL known domain conventions — unbounded | DevOps: `pod`, `ns`, `helm` / ML: `feat`, `epoch` |
+| 6. User-defined dicts | Custom shorthands you create — highest priority over all other rules | your team's own terms |
 
-**Covered domains:** Frontend · Backend · DevOps · Data/ML · Security · Mobile
+**All rules activate automatically on install — zero extra setup.**
+
+## Community dictionaries
+
+Domain shorthands are **bundled inside the plugin** — no extra setup needed. Install once, get everything.
+
+| Dictionary | Domain | Status |
+|------------|--------|--------|
+| [`dicts/web-dev.md`](dicts/web-dev.md) | Frontend + Backend web development | bundled |
+| [`dicts/data-science.md`](dicts/data-science.md) | Data Science, ML, AI engineering | bundled |
+| [`dicts/devops.md`](dicts/devops.md) | DevOps, cloud, infrastructure | bundled |
+
+The `dicts/` folder is the **contribution source** — PRs are reviewed and bundled into the next plugin release.
+
+### Contribute a new dict
+
+Create a markdown table file in `dicts/`:
+
+```markdown
+| shorthand | full term    |
+|-----------|--------------|
+| `gw`      | API gateway  |
+| `pub`     | publisher    |
+| `sub`     | subscriber   |
+```
+
+Open a PR — accepted dicts get bundled in the next release automatically for all users. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributing
 
 Community-driven protocol. We want:
-- New compression rules or domain patterns
-- Benchmarks comparing token usage before/after
-- Integrations with other CLI tools
+- New community dictionaries (`dicts/`) for specific domains
+- Real token benchmarks with before/after comparisons
+- New CLI integrations under `integrations/`
+- Better compression rules
 
 Open an Issue or PR!
