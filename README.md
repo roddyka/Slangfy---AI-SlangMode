@@ -22,7 +22,7 @@ The compression is on the **AI output side only** — you never need to learn th
 
 | Variant | Overhead | Best for |
 |---------|----------|----------|
-| **Nano** | ~40 tokens | Daily general use — competitive with minimal hooks like Caveman mode |
+| **Nano** | ~40 tokens | Daily general use — competitive with minimal hooks |
 | **Full** | ~2 000 tokens | Long sessions where aggressive dict compression pays off |
 
 > **Why Nano?** The Full version ships a large abbreviation dictionary — but the LLM already knows all those abbreviations. Nano drops the lists and just gives the behavioral rules. Same compression quality, 50× less input overhead.
