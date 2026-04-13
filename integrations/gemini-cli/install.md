@@ -1,13 +1,20 @@
 # Slangfy + Gemini CLI
 
-Gemini CLI uses `GEMINI.md` as instructions — all bundled dicts (Web Dev, Data Science, DevOps) are included automatically.
+| Variant | File | Overhead |
+|---------|------|----------|
+| **Nano** | `GEMINI-nano.md` | ~40 tokens — recommended for general use |
+| **Full** | `GEMINI.md` | ~2 000 tokens — aggressive dict compression |
 
 ## Install
 
 Copy the instructions file to your project root:
 
 ```bash
-cp path/to/slangfy/integrations/gemini-cli/GEMINI.md ./GEMINI.md
+# Nano (recommended)
+cp path/to/slangfy/integrations/gemini-cli/GEMINI-nano.md ./GEMINI.md
+
+# Full
+# cp path/to/slangfy/integrations/gemini-cli/GEMINI.md ./GEMINI.md
 ```
 
 Gemini CLI loads `GEMINI.md` automatically on session start.

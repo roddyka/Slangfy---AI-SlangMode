@@ -1,12 +1,20 @@
 # Slangfy + OpenCode
 
-OpenCode uses `slangfy.md` as instructions — all bundled dicts (Web Dev, Data Science, DevOps) are included automatically.
+| Variant | File | Overhead |
+|---------|------|----------|
+| **Nano** | `slangfy-nano.md` | ~40 tokens — recommended for general use |
+| **Full** | `slangfy.md` | ~2 000 tokens — aggressive dict compression |
 
 ## Option A — Project-level (this project only)
 
 ```bash
 mkdir -p .opencode
-cp path/to/slangfy.md .opencode/instructions.md
+
+# Nano (recommended)
+cp path/to/slangfy-nano.md .opencode/instructions.md
+
+# Full
+# cp path/to/slangfy.md .opencode/instructions.md
 ```
 
 OpenCode loads `.opencode/instructions.md` automatically on session start.
@@ -15,7 +23,12 @@ OpenCode loads `.opencode/instructions.md` automatically on session start.
 
 ```bash
 mkdir -p ~/.config/opencode
-cp path/to/slangfy.md ~/.config/opencode/instructions.md
+
+# Nano (recommended)
+cp path/to/slangfy-nano.md ~/.config/opencode/instructions.md
+
+# Full
+# cp path/to/slangfy.md ~/.config/opencode/instructions.md
 ```
 
 ## Custom dicts

@@ -18,10 +18,30 @@ The compression is on the **AI output side only** — you never need to learn th
 
 ---
 
+## Variants
+
+| Variant | Overhead | Best for |
+|---------|----------|----------|
+| **Nano** | ~40 tokens | Daily general use — competitive with minimal hooks like Caveman mode |
+| **Full** | ~2 000 tokens | Long sessions where aggressive dict compression pays off |
+
+> **Why Nano?** The Full version ships a large abbreviation dictionary — but the LLM already knows all those abbreviations. Nano drops the lists and just gives the behavioral rules. Same compression quality, 50× less input overhead.
+
+---
+
 ## Quick activation
 
 No CLI? Paste this directly into any chat (ChatGPT, Claude, Gemini, etc.):
 
+**Nano** (recommended):
+```
+NO politeness. NO hedging. NO markdown headers unless inside out:.
+Compress all tech terms to standard abbreviations — use domain knowledge.
+Use diff for code changes.
+Format: status:[ok|warn|err] | task@context | action:[done] | out:[result] | ![warn]
+```
+
+**Full** (aggressive dict compression):
 ```
 From now on, respond using Slangfy protocol:
 status: [ok|warn|err] | task @ context | action: [...] | out: [...] | ! [warning]
@@ -49,24 +69,47 @@ All CLI integrations live in the `integrations/` folder. Pick your tool:
 
 ### Claude Code
 
+**Nano — hook always-on (recommended):**
+```json
+// .claude/settings.json or ~/.claude/settings.json
+{
+  "hooks": {
+    "SessionStart": [{ "type": "command", "command": "cat path/to/slangfy-nano.md" }]
+  }
+}
+```
+
+**Nano — on demand:**
+```bash
+mkdir -p ~/.claude/skills/slangfy-nano-on
+cp integrations/claude-code/.claude/skills/slangfy-nano-on/SKILL.md ~/.claude/skills/slangfy-nano-on/SKILL.md
+```
+```
+/slangfy-nano-on  — enable Nano mode
+/slangfy-off      — return to normal
+```
+
+**Full — on demand:**
 ```bash
 mkdir -p ~/.claude/skills/slangfy-on ~/.claude/skills/slangfy-off
 cp integrations/claude-code/.claude/skills/slangfy-on/SKILL.md ~/.claude/skills/slangfy-on/SKILL.md
 cp integrations/claude-code/.claude/skills/slangfy-off/SKILL.md ~/.claude/skills/slangfy-off/SKILL.md
 ```
-
-Then toggle in any project:
 ```
-/slangfy-on   — enable Slangfy mode
+/slangfy-on   — enable Full mode
 /slangfy-off  — return to normal
 ```
 
-See `integrations/claude-code/install.md` for project-level install.
+See `integrations/claude-code/install.md` for full details.
 
 ### Gemini CLI
 
 ```bash
-cp integrations/gemini-cli/GEMINI.md ./GEMINI.md
+# Nano (recommended)
+cp integrations/gemini-cli/GEMINI-nano.md ./GEMINI.md
+
+# Full
+# cp integrations/gemini-cli/GEMINI.md ./GEMINI.md
 ```
 
 Gemini CLI loads `GEMINI.md` automatically on session start.
@@ -74,7 +117,11 @@ Gemini CLI loads `GEMINI.md` automatically on session start.
 ### Aider
 
 ```bash
-aider --system-prompt slangfy.md
+# Nano (recommended)
+aider --system-prompt slangfy-nano.md
+
+# Full
+# aider --system-prompt slangfy.md
 ```
 
 See `integrations/aider/install.md` for config file options.
@@ -82,14 +129,19 @@ See `integrations/aider/install.md` for config file options.
 ### OpenCode
 
 ```bash
-mkdir -p .opencode && cp slangfy.md .opencode/instructions.md
+# Nano (recommended)
+mkdir -p .opencode && cp slangfy-nano.md .opencode/instructions.md
+
+# Full
+# mkdir -p .opencode && cp slangfy.md .opencode/instructions.md
 ```
 
 See `integrations/opencode/install.md` for global install.
 
 ### Other LLMs (ChatGPT, Gemini web, etc.)
 
-Paste the contents of `slangfy.md` into your system prompt or custom instructions.
+- **Nano:** paste `slangfy-nano.md` into your system prompt or custom instructions
+- **Full:** paste `slangfy.md` into your system prompt or custom instructions
 
 ---
 
