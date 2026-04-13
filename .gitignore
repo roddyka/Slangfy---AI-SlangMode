@@ -1,2 +1,5 @@
 # Claude Code local session config — not part of the distribution
 .claude/
+
+# Benchmark script contains API key — never commit
+benchmark.sh

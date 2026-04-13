@@ -16,6 +16,8 @@ status: warn | mem_leak @ db_conn | action: ctx_manager_fix | out: [code_diff]
 
 The compression is on the **AI output side only** — you never need to learn the syntax.
 
+---
+
 ## Quick activation
 
 No CLI? Paste this directly into any chat (ChatGPT, Claude, Gemini, etc.):
@@ -27,17 +29,19 @@ Compress all tech terms. No politeness. No markdown headers unless inside out:.
 Shorten any term >6 chars to its common abbreviation. Define-on-first-use for unknown terms.
 ```
 
+---
+
 ## Benchmark
 
-Same question, same model (Claude Haiku), measured via API `usage.output_tokens`:
+Real test — same question, same model (Claude Sonnet via claude.ai), word count measured manually:
 
 | Prompt | Without Slangfy | With Slangfy | Reduction |
 |--------|----------------|--------------|-----------|
-| "Check for memory leak in my DB connection" | ~180 tokens | ~40 tokens | **~78%** |
-| "How do I set up CI/CD for a Node.js app?" | ~320 tokens | ~95 tokens | **~70%** |
-| "Explain JWT authentication flow" | ~260 tokens | ~70 tokens | **~73%** |
+| "How do I set up JWT authentication in a Node.js REST API?" | 449 words · 3,632 chars | 323 words · 2,406 chars | **~28% fewer words / ~34% fewer chars** |
 
-> Numbers are estimates. Run your own benchmark using `slangfy.md` as system prompt via the Anthropic API and compare `output_tokens`.
+> Results vary by question and domain. Got your own numbers? Open a PR and add them.
+
+---
 
 ## Install
 
@@ -51,7 +55,7 @@ cp integrations/claude-code/.claude/skills/slangfy-on/SKILL.md ~/.claude/skills/
 cp integrations/claude-code/.claude/skills/slangfy-off/SKILL.md ~/.claude/skills/slangfy-off/SKILL.md
 ```
 
-Then use it in any project:
+Then toggle in any project:
 ```
 /slangfy-on   — enable Slangfy mode
 /slangfy-off  — return to normal
@@ -87,6 +91,8 @@ See `integrations/opencode/install.md` for global install.
 
 Paste the contents of `slangfy.md` into your system prompt or custom instructions.
 
+---
+
 ## Syntax reference
 
 ```
@@ -108,9 +114,11 @@ Slangfy uses **6 auto-compression rules** — no static dictionary to maintain:
 
 **All rules activate automatically on install — zero extra setup.**
 
+---
+
 ## Community dictionaries
 
-Domain shorthands are **bundled inside the plugin** — no extra setup needed. Install once, get everything.
+Domain shorthands are **bundled inside the plugin** — install once, get everything.
 
 | Dictionary | Domain | Status |
 |------------|--------|--------|
@@ -132,13 +140,15 @@ Create a markdown table file in `dicts/`:
 | `sub`     | subscriber   |
 ```
 
-Open a PR — accepted dicts get bundled in the next release automatically for all users. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Open a PR — accepted dicts get bundled in the next release for all users. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
 
 ## Contributing
 
 Community-driven protocol. We want:
 - New community dictionaries (`dicts/`) for specific domains
-- Real token benchmarks with before/after comparisons
+- Real benchmark results with before/after word counts
 - New CLI integrations under `integrations/`
 - Better compression rules
 
